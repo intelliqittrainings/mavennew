@@ -1,8 +1,8 @@
 node('master') 
 {
-    stage('ContinuousDownload')
+    stage('ContinuousDownload') 
     {
-        git 'https://github.com/intelliqittrainings/maven.git'             
+       git 'https://github.com/intelliqittrainings/mavennew.git'
     }
     stage('ContinuousBuild')
     {
@@ -10,9 +10,8 @@ node('master')
     }
     stage('ContinuousDeployment')
     {
-sh 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war ubuntu@172.31.23.20:/var/lib/tomcat9/webapps/testapp.war'
+        sh 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war ubuntu@172.31.30.223:/var/lib/tomcat9/webapps/testapp.war'
     }
-
     stage('ContinuousTesting')
     {
         git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
@@ -20,6 +19,11 @@ sh 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.wa
     }
     stage('ContinuousDelivery')
     {
+        input 'Waiting for Approval from the DM!'
+        sh 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war ubuntu@172.31.31.112:/var/lib/tomcat9/webapps/prodapp.war'
+    }
     
-    sh 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war ubuntu@172.31.28.60:/var/lib/tomcat9/webapps/prodapp.war'}
+    
+    
+    
 }
